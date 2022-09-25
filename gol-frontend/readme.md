@@ -1,3 +1,2 @@
-1. npm 安裝
+1. 安裝 npm 
 2. 用 npm 裝 Bootstrap
-3. 把 node_moudles 加到 .gitignore
