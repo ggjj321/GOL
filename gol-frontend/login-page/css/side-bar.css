@@ -5,7 +5,25 @@
     font-family: "ubuntu", sans-serif;
   }
   
+  .container {
+    text-align: center;
+    width: 400px;
+  }
+
+  .logo {
+    width: 200px;
+  }
   
+  .input-stuff {
+    margin: 0;
+  }
+
+  .click-button {
+    padding: 0px 75px; 
+    margin-top: 30px;
+    border: none;
+  }
+
   .navigation {
     position: relative;
     inset: 10px;
