@@ -7,11 +7,23 @@
   
   .search{
     justify-content: center;
-      background-color: rgb(31, 31, 31);
+    background-color: rgb(31, 31, 31);
+    color: white;
+  }
+
+  .review{
+    border-radius: 10px;
   }
 
   .review:hover{
     transform: scale(1.05)
+  }
+
+  .btn-wish{
+    position: relative;
+    left: 380px;
+    top: 240px;
+
   }
 
   input[type=text] {
