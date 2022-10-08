@@ -11,6 +11,76 @@
     color: white;
   }
 
+  .shopping-cart{
+    border: 0;
+    margin: 0;
+    cursor: pointer;
+    float: right;
+    background-color: #000;
+    width: 100px;
+    height: 40px;
+  }
+
+  .gg-shopping-cart {
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    transform: scale(var(--ggs,1));
+    width: 20px;
+    height: 21px;
+    color: white;
+    --ggs: 1.5;
+    background:
+    linear-gradient(
+    to left,currentColor 12px,
+    transparent 0)
+    no-repeat -1px 6px/18px 2px,
+    linear-gradient(
+    to left,currentColor 12px,
+    transparent 0)
+    no-repeat 6px 14px/11px 2px,
+    linear-gradient(
+    to left,currentColor 12px,
+    transparent 0)
+    no-repeat 0 2px/4px 2px,
+    radial-gradient(
+    circle,currentColor 60%,
+    transparent 40%)
+    no-repeat 12px 17px/4px 4px,
+    radial-gradient(
+    circle,currentColor 60%,
+    transparent 40%)
+    no-repeat 6px 17px/4px 4px
+   }
+   
+   .gg-shopping-cart::after,
+   .gg-shopping-cart::before {
+    content: "";
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+    width: 2px;
+    height: 14px;
+    background: currentColor;
+    top: 2px;
+    left: 4px;
+    transform: skew(12deg)
+   }
+   
+   .gg-shopping-cart::after {
+    height: 10px;
+    top: 6px;
+    left: 16px;
+    transform: skew(-12deg)
+   } 
+   
+   .gg-shopping-cart::after {
+    height: 10px;
+    top: 6px;
+    left: 16px;
+    transform: skew(-12deg)
+   }  */
+
   .review{
     border-radius: 10px;
   }
@@ -19,11 +89,13 @@
     transform: scale(1.05)
   }
 
-  .btn-wish{
+  .btn-plus{
     position: relative;
     left: 380px;
     top: 240px;
-
+    border: 0;
+    margin: 0;
+    cursor: pointer;
   }
 
   input[type=text] {
@@ -34,6 +106,93 @@
     border-radius: 10px;
     border: 1px solid darkgrey;
   }
+
+  .gg-math-plus,
+  .gg-math-plus::after {
+   display: block;
+   box-sizing: border-box;
+   background: currentColor;
+   border-radius: 10px;
+   color: white;
+   --ggs:1.5;
+  }
+  
+  .gg-math-plus {
+   margin-top: -2px;
+   position: relative;
+   transform: scale(var(--ggs,1));
+   width: 16px;
+   height: 2px
+  }
+
+  .gg-math-plus:hover{
+
+  }
+  
+  .gg-math-plus::after {
+   content: "";
+   position: absolute;
+   width: 2px;
+   height: 16px;
+   top: -7px;
+   left: 7px
+  } 
+
+  .btn-readme{
+    position: relative;
+    left: 550px;
+    top: 248px;
+    border: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .gg-readme {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    transform: scale(var(--ggs,1));
+    width: 2px;
+    height: 17px;
+    border-bottom: 4px solid;
+    border-radius: 4px;
+    color: white;
+    --ggs:1.5;
+    background-color: currentColor;
+   }
+   
+   .gg-readme::after,
+   .gg-readme::before {
+    content: "";
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+    width: 8px;
+    height: 12px;
+    box-shadow: 0 0 0 2px;
+    border-radius: 1px;
+    bottom: -1px;
+    background:
+    linear-gradient(to left,
+    currentColor 4px,transparent 0)
+    no-repeat center 5px/4px 2px,
+    linear-gradient(to left,
+    currentColor 4px,transparent 0)
+    no-repeat center 2px/4px 2px,
+    linear-gradient(to left,
+    currentColor 4px,transparent 0)
+    no-repeat center 8px/4px 2px
+   }
+   
+   .gg-readme::before {
+    border-top-right-radius: 3px;
+    left: -8px
+   }
+   
+   .gg-readme::after {
+    border-top-left-radius: 3px;
+    right: -8px
+   } 
 
   .gg-card-hearts {
     box-sizing: border-box;
