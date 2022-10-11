@@ -6,8 +6,15 @@
   }
   
   .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     text-align: center;
     width: 400px;
+    background-color: gray;
+    border-radius: 10px;
   }
 
   .logo {
@@ -15,13 +22,18 @@
   }
   
   .input-stuff {
-    margin: 0;
+    display: inline;
+  }
+
+  .input-box {
+    
   }
 
   .click-button {
-    padding: 0px 75px; 
+    padding: 0px 50px; 
     margin-top: 30px;
     border: none;
+    border-radius: 10px;
   }
 
   .navigation {
