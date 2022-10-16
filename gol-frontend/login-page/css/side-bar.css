@@ -23,10 +23,8 @@
   
   .input-stuff {
     display: inline;
-  }
-
-  .input-box {
-    
+    position: relative;
+    right: 15px;
   }
 
   .click-button {
