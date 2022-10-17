@@ -5,19 +5,26 @@
     font-family: "ubuntu", sans-serif;
   }
 
-.logo{}
+.logo{
+    display: inline-flex;
+}
 
-.logo_right{
-    display: flex;
+#logo-right{
+    display: inline-flex;
     justify-content: space-between;
 }
 
+#inner{
+    display: inline-flex;
+    justify-content: space-around;
+}
+
 .search{
-    display: flex;
+    display: inline-flex;
     justify-content: left;
     background-color: rgb(31, 31, 31);
     color: white;
-  }
+}
 
 .login{
     display: flex;
@@ -92,4 +99,10 @@
   left: 16px;
   transform: skew(-12deg)
   }
+
+.filters{
+    padding-left:30px; 
+    font-weight:bold; 
+    color:white
+}
 
