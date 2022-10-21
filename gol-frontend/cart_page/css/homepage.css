@@ -262,14 +262,14 @@ input[type=text] {
 
 .review-photo{
     display: flex;
-    margin: 30px 40px 0 100px;
+    margin: 30px 37px 0 37px;
 }
 
 .review{
     width: 215px;
     height: 215px;
     border-radius: 10px;
-    margin: 20px;
+    margin: 20px 27px 0px 27px;
 }
     
 .review:hover{
@@ -279,8 +279,10 @@ input[type=text] {
 .btn-plus{
     position: relative;
     border: 0;
-    margin: 10px 0 0 20px;
+    padding: 10px;
+    margin: 0 20px 0 20px;
     cursor: pointer;
+    background-color: #000;
 }
 
 .gg-math-plus,
@@ -317,8 +319,12 @@ input[type=text] {
 .btn-readme{
   position: relative;
   border: 0;
-  margin: 0;
+  padding: 10px;
+  margin: 0 20px 0 20px;
+  left: 99px;
+  top: 5px;
   cursor: pointer;
+  background-color: #000;
 }
 
 .gg-readme {
