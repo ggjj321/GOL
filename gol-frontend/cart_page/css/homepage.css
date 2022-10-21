@@ -5,103 +5,149 @@
     font-family: "ubuntu", sans-serif;
   }
 
+.top-widget{
+    display: flex;
+}
+
 .logo{
-    display: inline-flex;
+    display: flex;
 }
 
-#logo-right{
-    display: inline-flex;
+.logo-right{
+    display: flex;
     justify-content: space-between;
+    flex-grow: 1;
 }
 
-#inner{
-    display: inline-flex;
+.inner{
+    display: flex;
+    width: 100px;
     justify-content: space-around;
+    margin-right: 30px;
 }
 
 .search{
-    display: inline-flex;
+    display: flex;
     justify-content: left;
     background-color: rgb(31, 31, 31);
     color: white;
 }
 
 .login{
-    display: flex;
+    border: 0;
+    margin: 0;
+    cursor: pointer;
+    float: right;
+    background-color: #000;
+}
+    
+.gg-profile,
+.gg-profile::after,
+.gg-profile::before {
+    display: block;
+    box-sizing: border-box;
+    border: 2px solid;
+    border-radius: 100px;
+    color: white;
+    --ggs:1.5;
+    background-color: #000;
 }
 
-.shopping-cart{
-  border: 0;
-  margin: 0;
-  cursor: pointer;
-  float: right;
-  background-color: #000;
-  width: 100px;
-  height: 35px;
+.gg-profile {
+    overflow: hidden;
+    transform: scale(var(--ggs,1));
+    width: 22px;
+    height: 22px;
+    position: relative;
+}
+
+.gg-profile::after,
+.gg-profile::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 8px;
+    height: 8px
+}
+
+.gg-profile::after {
+    border-radius: 200px;
+    top: 11px;
+    left: 0px;
+    width: 18px;
+    height: 18px
+} 
+
+.shopping-cart {
+    border: 0;
+    margin: 0;
+    cursor: pointer;
+    float: right;
+    background-color: #000;
 }
 
 .gg-shopping-cart {
-  display: block;
-  box-sizing: border-box;
-  position: relative;
-  transform: scale(var(--ggs,1));
-  width: 20px;
-  height: 21px;
-  color: white;
-  --ggs: 1.5;
-  background:
-  linear-gradient(
-  to left,currentColor 12px,
-  transparent 0)
-  no-repeat -1px 6px/18px 2px,
-  linear-gradient(
-  to left,currentColor 12px,
-  transparent 0)
-  no-repeat 6px 14px/11px 2px,
-  linear-gradient(
-  to left,currentColor 12px,
-  transparent 0)
-  no-repeat 0 2px/4px 2px,
-  radial-gradient(
-  circle,currentColor 60%,
-  transparent 40%)
-  no-repeat 12px 17px/4px 4px,
-  radial-gradient(
-  circle,currentColor 60%,
-  transparent 40%)
-  no-repeat 6px 17px/4px 4px
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    transform: scale(var(--ggs,1));
+    width: 20px;
+    height: 21px;
+    color: white;
+    --ggs: 1.5;
+    background:
+    linear-gradient(
+    to left,currentColor 12px,
+    transparent 0)
+    no-repeat -1px 6px/18px 2px,
+    linear-gradient(
+    to left,currentColor 12px,
+    transparent 0)
+    no-repeat 6px 14px/11px 2px,
+    linear-gradient(
+    to left,currentColor 12px,
+    transparent 0)
+    no-repeat 0 2px/4px 2px,
+    radial-gradient(
+    circle,currentColor 60%,
+    transparent 40%)
+    no-repeat 12px 17px/4px 4px,
+    radial-gradient(
+    circle,currentColor 60%,
+    transparent 40%)
+    no-repeat 6px 17px/4px 4px
   }
   
   .gg-shopping-cart::after,
   .gg-shopping-cart::before {
-  content: "";
-  display: block;
-  position: absolute;
-  box-sizing: border-box;
-  width: 2px;
-  height: 14px;
-  background: currentColor;
-  top: 2px;
-  left: 4px;
-  transform: skew(12deg)
+    content: "";
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+    width: 2px;
+    height: 14px;
+    background: currentColor;
+    top: 2px;
+    left: 4px;
+    transform: skew(12deg)
   }
   
   .gg-shopping-cart::after {
-  height: 10px;
-  top: 6px;
-  left: 16px;
-  transform: skew(-12deg)
+    height: 10px;
+    top: 6px;
+    left: 16px;
+    transform: skew(-12deg)
   } 
   
   .gg-shopping-cart::after {
-  height: 10px;
-  top: 6px;
-  left: 16px;
-  transform: skew(-12deg)
+    height: 10px;
+    top: 6px;
+    left: 16px;
+    transform: skew(-12deg)
   }
 
 .filters{
-    padding-left:30px; 
     font-weight:bold; 
     color:white
 }
