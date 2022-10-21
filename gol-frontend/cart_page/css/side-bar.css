@@ -127,33 +127,33 @@ width: 18px;
 height: 18px
 }  */
 
-.review{
+/* .review{
 border-radius: 10px;
 }
 
 .review:hover{
   transform: scale(1.05)
-}
+} */
 
-.btn-plus{
+/* .btn-plus{
   position: relative;
   left: 380px;
   top: 240px;
   border: 0;
   margin: 0;
   cursor: pointer;
-}
+} */
 
-input[type=text] {
+/* input[type=text] {
   width: 50%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
   border-radius: 10px;
   border: 1px solid darkgrey;
-}
+} */
 
-.gg-math-plus,
+/* .gg-math-plus,
 .gg-math-plus::after {
   display: block;
   box-sizing: border-box;
@@ -238,9 +238,9 @@ input[type=text] {
   .gg-readme::after {
   border-top-left-radius: 3px;
   right: -8px
-  } 
+  }  */
 
-.gg-card-hearts {
+/* .gg-card-hearts {
   box-sizing: border-box;
   position: relative;
   display: block;
@@ -271,9 +271,9 @@ input[type=text] {
   .gg-card-hearts::after {
   transform: rotate(-45deg);
   left: 4px
-  } 
+  }  */
 
-  .gg-arrow-long-right-r {
+  /* .gg-arrow-long-right-r {
   box-sizing: border-box;
   position: relative;
   display: block;
@@ -312,7 +312,7 @@ input[type=text] {
   transform: rotate(45deg);
   left: -5px;
   bottom: -2px
-  } 
+  }  */
 
 .navigation {
   position: relative;
