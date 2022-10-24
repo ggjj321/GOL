@@ -303,10 +303,6 @@ input[type=text] {
   height: 2px
 }
 
-.gg-math-plus:hover{
-
-}
-
 .gg-math-plus::after {
   content: "";
   position: absolute;
