@@ -1,39 +1,76 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "ubuntu", sans-serif;
-  }
-  
-  .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 400px;
-    background-color: gray;
-    border-radius: 10px;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "ubuntu", sans-serif;
+}
 
-  .logo {
-    width: 200px;
-  }
-  
-  .input-stuff {
-    display: inline;
-    position: relative;
-    right: 15px;
-  }
+span {
+  vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
 
-  .click-button {
-    padding: 0px 50px; 
-    margin-top: 30px;
-    border: none;
-    border-radius: 10px;
-  }
+input {
+  margin: 6px 0 0;
+}
 
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 450px;
+  border: #fff solid;
+  border-radius: 10px;
+}
+
+.logo {
+  width: 200px;
+}
+
+.grid {
+  align-content: normal;
+}
+
+.item {
+  margin: 0 0 5px;
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}
+
+.label-title {
+  display: flex;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: center;
+  align-items: center;
+  position: relative;
+  min-height: 40px;
+  text-align: right;
+}
+
+.edit-row-left {
+  flex-basis: 144px;
+  width: 144px;
+  max-width: 144px;
+  margin-right: 16px;
+}
+
+.click-button {
+  background-color: #fff;
+  padding: 0px 50px; 
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+}
   .navigation {
     position: relative;
     inset: 10px;
