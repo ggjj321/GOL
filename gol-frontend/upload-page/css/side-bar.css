@@ -4,7 +4,22 @@
     box-sizing: border-box;
     font-family: "ubuntu", sans-serif;
   }
-  
+
+  .logo {
+    width: 300px;
+    height: auto;
+  }
+
+  .container {
+    text-align: center;
+    border: solid #fff;
+    border-radius: 10px;
+  }
+
+  input {
+    margin: 8px 0 0;
+  }
+
   span {
     vertical-align: baseline;
     margin: 0;
@@ -12,32 +27,18 @@
     border: 0;
   }
 
-  input {
-    margin: 6px 0 0;
+  .title {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
   }
 
-  .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 450px;
-    border: #fff solid;
-    border-radius: 10px;
-  }
-
-  .logo {
-    width: 200px;
-  }
-  
   .grid {
     align-content: normal;
   }
 
   .item {
-    margin: 0 0 5px;
+    margin: 0 0 24px;
     display: flex;
     flex-wrap: wrap;
     -webkit-box-align: start;
@@ -64,12 +65,13 @@
     margin-right: 16px;
   }
 
-  .click-button {
-    background-color: #fff;
-    padding: 0px 50px; 
-    margin-top: 10px;
-    border: none;
-    border-radius: 10px;
+  .mandatory {
+    color: #ee4d2d;
+  }
+
+  .mandatory-icon {
+    margin-right: 3px;
+    vertical-align: middle;
   }
 
   .navigation {
