@@ -74,6 +74,25 @@
     vertical-align: middle;
   }
 
+  textarea {
+    margin-top: 10px;
+    width: 700px;
+    height: 200px;
+    box-sizing: border-box;
+    resize: none;
+  }
+
+  .click {
+    text-align: right;
+  }
+
+  .click-box {
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 2px;
+    border: none;
+  }
+
   .navigation {
     position: relative;
     inset: 10px;
