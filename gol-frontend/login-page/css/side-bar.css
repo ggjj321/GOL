@@ -58,9 +58,9 @@ input {
 }
 
 .edit-row-left {
-  flex-basis: 144px;
-  width: 144px;
-  max-width: 144px;
+  flex-basis: 146px;
+  width: 146px;
+  max-width: 146px;
   margin-right: 16px;
 }
 
