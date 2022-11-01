@@ -1,4 +1,6 @@
+gunicorn
 fastapi
 uvicorn
 jinja2
 SQLAlchemy
+PyMySQL
