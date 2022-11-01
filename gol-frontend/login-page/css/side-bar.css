@@ -4,7 +4,7 @@
     box-sizing: border-box;
     font-family: "ubuntu", sans-serif;
   }
-  
+
   span {
     vertical-align: baseline;
     margin: 0;
@@ -13,7 +13,12 @@
   }
 
   input {
+    color: white;
     margin: 6px 0 0;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid darkgrey;
+    background-color: rgb(31, 31, 31);
   }
 
   .container {
@@ -26,6 +31,7 @@
     width: 450px;
     border: #fff solid;
     border-radius: 10px;
+    padding: 20px;
   }
 
   .logo {
@@ -65,11 +71,14 @@
   }
 
   .click-button {
-    background-color: #fff;
+    width: 178px;
+    color: white;
+    background-color: rgb(31, 31, 31);
     padding: 0px 50px; 
-    margin-top: 10px;
-    border: none;
+    margin-top: 20px;
+    border: 1px solid darkgrey;
     border-radius: 10px;
+    padding: 5px;
   }
 
   .navigation {

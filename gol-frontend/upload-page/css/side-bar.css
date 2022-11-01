@@ -11,13 +11,19 @@
   }
 
   .container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     text-align: center;
     border: solid #fff;
     border-radius: 10px;
+    padding: 20px;
   }
 
   input {
-    margin: 8px 0 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
   }
 
   span {
@@ -31,6 +37,7 @@
     display: flex;
     -webkit-box-pack: justify;
     justify-content: space-between;
+    vertical-align: center;
   }
 
   .grid {
@@ -38,7 +45,6 @@
   }
 
   .item {
-    margin: 0 0 24px;
     display: flex;
     flex-wrap: wrap;
     -webkit-box-align: start;
@@ -80,16 +86,21 @@
     height: 200px;
     box-sizing: border-box;
     resize: none;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
   }
 
   .click {
-    text-align: right;
+    text-align: center;
   }
 
   .click-box {
+    width: 100%;
+    padding: 10px;
     background-color: #fff;
-    padding: 5px;
-    border-radius: 2px;
+    padding: 10px;
+    border-radius: 5px;
     border: none;
   }
 
