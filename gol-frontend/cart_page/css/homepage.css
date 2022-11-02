@@ -47,7 +47,7 @@ input[type=text] {
     margin: 0;
     cursor: pointer;
     float: right;
-    background-color: #000;
+    background-color: #121212;
 }
     
 .gg-profile,
@@ -93,7 +93,7 @@ input[type=text] {
     margin: 0;
     cursor: pointer;
     float: right;
-    background-color: #000;
+    background-color: #121212;
 }
 
 .gg-shopping-cart {
@@ -282,7 +282,7 @@ input[type=text] {
     padding: 10px;
     margin: 0 20px 0 20px;
     cursor: pointer;
-    background-color: #000;
+    background-color: #121212;
 }
 
 .gg-math-plus,
@@ -320,7 +320,7 @@ input[type=text] {
   left: 99px;
   top: 5px;
   cursor: pointer;
-  background-color: #000;
+  background-color: #121212;
 }
 
 .gg-readme {
