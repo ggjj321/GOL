@@ -1,6 +1,9 @@
+alembic.ini
 database.py
 
 node_modules/
 
 __pycache__/
+
+migration_env/
 
