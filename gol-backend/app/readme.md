@@ -3,10 +3,25 @@
 ```
 python -m venv migration_env
 ```
-2. 
+2. 開啟 env
+```
+.\app\migration_env\Scripts\activate.ps1
+```
+3. 
 在 env 裡 install requirements.txt
 ```
 app\migration_env\Scripts\pip install -r requirements.txt
+```
+
+# migration command
+- 在 app 路徑執行，不然找不到 alembic.ini
+## 升級
+```
+.\migration_env\Scripts\alembic upgrade head
+```
+## 確認版本
+```
+.\migration_env\Scripts\alembic current 
 ```
 
 # 參考資料
