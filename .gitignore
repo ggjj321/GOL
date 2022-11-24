@@ -7,3 +7,4 @@ __pycache__/
 
 migration_env/
 
+.DS_Store
