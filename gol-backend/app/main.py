@@ -1,15 +1,39 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+from fastapi import Depends, FastAPI, HTTPException
+from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
+
+import crud
+import models
+import schemas
+from database import SessionLocal, engine
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+origins = [
+    "http://127.0.0.1",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:5500",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-gol_frontend_templates = Jinja2Templates(directory="../../gol-frontend")
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-@app.get("/page", response_class=HTMLResponse)
-async def read_page(request: Request):
-    return gol_frontend_templates.TemplateResponse("admin_page/index.html", {"request": request})
+
+@app.post("/sign_up")
+async def sign_up(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    return crud.create_user(db=db, user=user)
