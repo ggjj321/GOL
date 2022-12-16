@@ -1,0 +1,10 @@
+gunicorn
+fastapi
+uvicorn
+jinja2
+SQLAlchemy
+PyMySQL
+alembic
+passlib
+python-jose[cryptography]
+bcrypt

@@ -8,7 +8,7 @@ class User(Base):
 
     id = sa.Column(sa.INTEGER, primary_key=True, nullable=False)
     create_at = sa.Column(sa.DATE, nullable=False)
-    password = sa.Column(sa.VARCHAR(length=20), nullable=False)
+    password = sa.Column(sa.VARCHAR(length=100), nullable=False)
     authority = sa.Column(sa.Enum(
         "Admin", "Developer", "Member", name="authority"), nullable=False)
     name = sa.Column(sa.VARCHAR(length=30), nullable=False)

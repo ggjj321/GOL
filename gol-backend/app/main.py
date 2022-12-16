@@ -1,6 +1,8 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import RedirectResponse
 
 import crud
 import models
@@ -37,3 +39,8 @@ def get_db():
 @app.post("/sign_up")
 async def sign_up(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
+
+
+@app.post("/login")
+async def user_login(user: schemas.UserLogIn, db: Session = Depends(get_db)):
+    return crud.login(db=db, user=user)
