@@ -1,5 +1,6 @@
 alembic.ini
 database.py
+utils.py
 
 node_modules/
 
@@ -8,3 +9,4 @@ __pycache__/
 migration_env/
 
 .DS_Store
+
