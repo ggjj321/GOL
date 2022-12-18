@@ -1,24 +1,22 @@
-from sqlalchemy.orm import Session
+from datetime import datetime
 from fastapi import status, HTTPException
+from sqlalchemy.orm import Session
 
-from utils import get_hashed_password
+from app import models
+from app import schemas
 
-import models
-import schemas
 
-import datetime
-
-from utils import (
+from app.utils import (
     get_hashed_password,
     create_access_token,
     create_refresh_token,
-    verify_password
+    verify_password,
 )
 
 
 def create_user(db: Session, user: schemas.UserCreate):
     db_user = models.User(
-        create_at=datetime.datetime.now(), password=get_hashed_password(user.password), authority="Member", name=user.name, phone=user.phone, email=user.email, member_balance=0)
+        create_at=datetime.datetime.now(), password=get_hashed_password(user.password), authority="Member", name=user.username, phone=user.phone, email=user.email, member_balance=0)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -27,7 +25,7 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 def login(db: Session, user: schemas.UserLogIn):
     logInUser = db.query(models.User).filter(
-        models.User.name == user.name).first()
+        models.User.name == user.username).first()
 
     if user is None:
         raise HTTPException(
@@ -42,6 +40,6 @@ def login(db: Session, user: schemas.UserLogIn):
         )
 
     return {
-        "access_token": create_access_token(user.name),
-        "refresh_token": create_refresh_token(user.name),
+        "access_token": create_access_token(user.username),
+        "refresh_token": create_refresh_token(user.username),
     }

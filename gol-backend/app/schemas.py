@@ -2,10 +2,11 @@ import datetime
 
 from enum import Enum
 from pydantic import BaseModel
+from typing import Union
 
 
 class UserBase(BaseModel):
-    name: str
+    username: str
     password: str
 
 
@@ -26,3 +27,7 @@ class User(UserCreate):
 
     class Config:
         orm_mode = True
+
+
+class TokenData(BaseModel):
+    username: Union[str, None] = None
