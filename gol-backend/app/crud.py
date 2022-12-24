@@ -1,45 +1,33 @@
-from datetime import datetime
-from fastapi import status, HTTPException
-from sqlalchemy.orm import Session
+import datetime
 
-from app import models
-from app import schemas
-
-
-from app.utils import (
-    get_hashed_password,
-    create_access_token,
-    create_refresh_token,
-    verify_password,
-)
+from enum import Enum
+from pydantic import BaseModel
+from typing import Union
 
 
-def create_user(db: Session, user: schemas.UserCreate):
-    db_user = models.User(
-        create_at=datetime.datetime.now(), password=get_hashed_password(user.password), authority="Member", name=user.username, phone=user.phone, email=user.email, member_balance=0)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+class UserBase(BaseModel):
+    username: str
+    password: str
 
 
-def login(db: Session, user: schemas.UserLogIn):
-    logInUser = db.query(models.User).filter(
-        models.User.name == user.username).first()
+class UserLogIn(UserBase):
+    pass
 
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Incorrect name or password"
-        )
 
-    if not verify_password(password=user.password, hashed_pass=logInUser.password):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Incorrect name or password"
-        )
+class UserCreate(UserBase):
+    phone: str
+    email: str
 
-    return {
-        "access_token": create_access_token(user.username),
-        "refresh_token": create_refresh_token(user.username),
-    }
+
+class User(UserCreate):
+    id: str
+    create_at: datetime.datetime
+    authority:  Enum("authority", ["Admin", "Developer", "Member"])
+    member_balance: int
+
+    class Config:
+        orm_mode = True
+
+
+class TokenData(BaseModel):
+    username: Union[str, None] = None

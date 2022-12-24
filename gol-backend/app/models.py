@@ -1,7 +1,7 @@
 import sqlalchemy as sa
 from sqlalchemy import UniqueConstraint
 
-from app.database import Base
+from database import Base
 
 
 class User(Base):
