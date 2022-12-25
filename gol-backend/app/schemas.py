@@ -40,7 +40,7 @@ class OwnedGame(BaseModel):
 
 class GameList(OwnedGame):
     game_list_id: str
-    create_at: datetime = None
+    create_at: datetime.datetime = None
     user_id:  str
     game_list_type: Enum("game_list_type", ["Wishlist", "Library"])
 
@@ -60,13 +60,14 @@ class GameDetail(BaseModel):
 
 class Game(GameDetail):
     game_id: str
-    create_at: datetime = None
+    create_at: datetime.datetime = None
     game_name: str
 
     class Config:
         orm_mode = True
 
 # Cart
+class Cart(BaseModel):
     cart_id: str
     user_id: str
     game_id: str
@@ -79,9 +80,9 @@ class Game(GameDetail):
 # Issue
 class Issue(BaseModel):
     issue_id: str
-    create_at: datetime = None
+    create_at: datetime.datetime = None
     issue_type: Enum("issue_type", ["Violation", "Refund"])
-    issue_deleted_at: datetime = None
+    issue_deleted_at: datetime.datetime = None
     user_id: str
     violation_content: str
     refund_acception: bool
