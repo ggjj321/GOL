@@ -27,7 +27,7 @@ class Game(Base):
     game_name = sa.Column(sa.VARCHAR(length=20), nullable=False)
     game_sale_price = sa.Column(sa.INTEGER, nullable=False)
     game_developer = sa.Column(sa.VARCHAR(length=20), nullable=False)
-    game_picture = sa.Column(sa.BLOB(), nullable=False)
+    game_picture = sa.Column(sa.VARCHAR(length=200), nullable=False)
     game_introduction = sa.Column(sa.VARCHAR(length=2000), nullable=False)
     game_discount = sa.Column(sa.DECIMAL())
     game_genre = sa.Column(sa.VARCHAR(length=50), nullable=False)
