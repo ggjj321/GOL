@@ -1,7 +1,7 @@
 import sqlalchemy as sa
 from sqlalchemy import UniqueConstraint
 
-from database import Base
+from app.database import Base
 
 
 class User(Base):
@@ -12,7 +12,8 @@ class User(Base):
     password = sa.Column(sa.VARCHAR(length=100), nullable=False)
     authority = sa.Column(sa.Enum(
         "Admin", "Developer", "Member", name="authority"), nullable=False)
-    name = sa.Column(sa.VARCHAR(length=30), nullable=False, unique=True) # Update name as unique key
+    name = sa.Column(sa.VARCHAR(length=30), nullable=False,
+                     unique=True)  # Update name as unique key
     phone = sa.Column(sa.VARCHAR(length=20), nullable=False)
     email = sa.Column(sa.VARCHAR(length=100), nullable=False)
     member_balance = sa.Column(sa.INTEGER)
