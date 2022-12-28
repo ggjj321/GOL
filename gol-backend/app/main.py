@@ -201,7 +201,7 @@ async def update_issue_delete_date(delete_date:datetime,user: schemas.UserLogIn 
     return crud.update_issue_delete_date(db,user,delete_date)
 #update Issue violation content
 @app.patch("/Issue/update_issue_violation_content", response_model=schemas.Issue)
-async def update_issue_violation_content(issue_id:str,content:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+async def update_issue_violation_content(content:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.update_issue_violation_content(db,user,content)
 #update Issue violation content
 @app.patch("/Issue/update_issue_refund_acception", response_model=schemas.Issue)
