@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from enum import Enum
 from pydantic import BaseModel
@@ -21,7 +21,7 @@ class UserCreate(UserBase):
 
 class User(UserCreate):
     id: str
-    create_at: datetime.datetime
+    create_at: datetime
     authority: Enum("authority", ["Admin", "Developer", "Member"])
     member_balance: int
 

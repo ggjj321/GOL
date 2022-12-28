@@ -16,7 +16,7 @@ from app.utils import (
 
 def create_user(db: Session, user: schemas.UserCreate):
     db_user = models.User(
-        create_at=datetime.datetime.now(), password=get_hashed_password(user.password), authority="Member", name=user.username, phone=user.phone, email=user.email, member_balance=0)
+        create_at=datetime.now(), password=get_hashed_password(user.password), authority="Member", name=user.username, phone=user.phone, email=user.email, member_balance=0)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
