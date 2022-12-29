@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from enum import Enum
 from pydantic import BaseModel
@@ -21,7 +21,7 @@ class UserCreate(UserBase):
 
 class User(UserCreate):
     id: str
-    create_at: datetime.datetime
+    create_at: datetime
     authority: Enum("authority", ["Admin", "Developer", "Member"])
     member_balance: int
 
@@ -40,7 +40,7 @@ class OwnedGame(BaseModel):
 
 class GameList(OwnedGame):
     game_list_id: str
-    create_at: datetime.datetime = None
+    create_at: datetime = None
     user_id:  str
     game_list_type: Enum("game_list_type", ["Wishlist", "Library"])
 
@@ -60,7 +60,7 @@ class GameDetail(BaseModel):
 
 class Game(GameDetail):
     game_id: str
-    create_at: datetime.datetime = None
+    create_at: datetime = None
     game_name: str
 
     class Config:
@@ -80,9 +80,9 @@ class Cart(BaseModel):
 # Issue
 class Issue(BaseModel):
     issue_id: str
-    create_at: datetime.datetime = None
+    create_at: datetime = None
     issue_type: Enum("issue_type", ["Violation", "Refund"])
-    issue_deleted_at: datetime.datetime = None
+    issue_deleted_at: datetime = None
     user_id: str
     violation_content: str
     refund_acception: bool
