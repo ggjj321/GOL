@@ -250,3 +250,73 @@ def delete_cart(db:Session, user:schemas.UserLogIn, cart_id:int):
     db.delete(db_cart_delete)
     db.commit()
     return True
+
+###Issue
+def create_issue_Violation(db:Session,user:schemas.UserLogIn,issue:schemas.Issue):
+    created_issue = models.Issue(
+        issue_id=issue.issue_id,
+        create_at=datetime.now(),
+        issue_type="Violation",
+        issue_deleted_at=issue.issue_deleted_at,
+        user_id=issue.user_id,
+        violation_content=issue.violation_content,
+        refund_acception=issue.refund_acception,
+        refund_gameId=issue.refund_gameId)
+    db.add(created_issue)
+    db.commit()
+    db.refresh(created_issue)
+    return created_issue
+
+def create_issue_Refund(db:Session,user:schemas.UserLogIn,issue:schemas.Issue):
+    created_issue = models.Issue(
+        issue_id=issue.issue_id,
+        create_at=datetime.now(),
+        issue_type="Refund",
+        issue_deleted_at=issue.issue_deleted_at,
+        user_id=issue.user_id,
+        violation_content=issue.violation_content,
+        refund_acception=issue.refund_acception,
+        refund_gameId=issue.refund_gameId)
+    db.add(created_issue)
+    db.commit()
+    db.refresh(created_issue)
+    return created_issue
+
+def get_issue(db:Session,user:schemas.UserLogIn,skip:int=0,limit:int=100):
+    userid = db.query(models.User.id).filter(models.User.name==user.username)
+    return db.query(models.Issue).filter(models.Issue.user_id==userid).offset(skip).limit(limit).all()
+
+def update_issue_delete_date(db:Session, user:schemas.UserLogIn,issue_id:int,delete_date:datetime):
+    userid = db.query(models.User.id).filter(models.User.name==user.username)
+    Old = db.query(models.Issue).filter((models.Issue.issue_id==issue_id))
+    if not Old.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Issue of the id {userid} is not available')
+    Old.update({"issue_deleted_at":delete_date})
+    db.commit()
+    return delete_date
+
+def update_issue_violation_content(db:Session, user:schemas.UserLogIn,issue_id:int,content:str):
+    userid = db.query(models.User.id).filter(models.User.name==user.username)
+    Old = db.query(models.Issue).filter((models.Issue.issue_id==issue_id))
+    if not Old.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Issue of the id {userid} is not available')
+    Old.update({"violation_content":content})
+    db.commit()
+    return content
+
+def update_issue_refund_acception(db:Session, user:schemas.UserLogIn,issue_id:int,refund:bool):
+    userid = db.query(models.User.id).filter(models.User.name==user.username)
+    Old = db.query(models.Issue).filter((models.Issue.issue_id==issue_id))
+    if not Old.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Issue of the id {userid} is not available')
+    Old.update({"refund_acception":refund})
+    db.commit()
+    return refund
+
+def delete_issue(db:Session, user:schemas.UserLogIn, issue_id:int):
+    db_issue_delete = db.query(models.Issue).filter(models.Issue.issue_id==issue_id).first()
+    if not db_issue_delete:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Issue with the id {issue_id} is not available')
+    db.delete(db_issue_delete)
+    db.commit()
+    return True

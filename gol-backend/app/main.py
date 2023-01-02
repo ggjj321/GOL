@@ -196,30 +196,31 @@ async def update_cart_place_order(game_id:int,place_order:bool,user: schemas.Use
 async def delete_cart(cart_id:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.delete_cart(db=db,user=user,cart_id=cart_id)
 
-'''
 ###issue
 #add Issue
-@app.post("/Issue/add_issue")
+@app.post("/Issue/add_issue_Vio")
 async def add_issue(issue:schemas.Issue,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.create_issue(db,user,issue)
+    return crud.create_issue_Violation(db=db,user=user,issue=issue)
+@app.post("/Issue/add_issue_Refund")
+async def add_issue(issue:schemas.Issue,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.create_issue_Refund(db=db,user=user,issue=issue)
 #get Issue
-@app.get("/Issue/get_issue", response_model=schemas.Issue)
+@app.get("/Issue/get_issue")
 async def get_issue(skip:int = 0,limit:int=100,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.get_issue(db,user,skip,limit)
+    return crud.get_issue(db=db,user=user,skip=skip,limit=limit)
 #update Issue delete date
-@app.patch("/Issue/update_issue_delete_date", response_model=schemas.Issue)
-async def update_issue_delete_date(delete_date:datetime,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_issue_delete_date(db,user,delete_date)
+@app.patch("/Issue/update_issue_delete_date")
+async def update_issue_delete_date(issue_id:int,delete_date:datetime,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_issue_delete_date(db=db,user=user,delete_date=delete_date,issue_id=issue_id)
 #update Issue violation content
-@app.patch("/Issue/update_issue_violation_content", response_model=schemas.Issue)
-async def update_issue_violation_content(content:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_issue_violation_content(db,user,content)
+@app.patch("/Issue/update_issue_violation_content")
+async def update_issue_violation_content(issue_id:int,content:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_issue_violation_content(db=db,user=user,content=content,issue_id=issue_id)
 #update Issue violation content
-@app.patch("/Issue/update_issue_refund_acception", response_model=schemas.Issue)
-async def update_issue_refund_acception(refund:bool,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_issue_refund_acception(db,user,refund)
+@app.patch("/Issue/update_issue_refund_acception")
+async def update_issue_refund_acception(issue_id:int,refund:bool,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_issue_refund_acception(db=db,user=user,refund=refund,issue_id=issue_id)
 #delete Issue
-@app.delete("/Issue/delete_issue",response_model=schemas.Issue)
-async def delete_issue(issue_id:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.delete_issue(db,user,issue_id)
-'''
+@app.delete("/Issue/delete_issue")
+async def delete_issue(issue_id:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.delete_issue(db=db,user=user,issue_id=issue_id)
