@@ -72,6 +72,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth), db: Session = 
     return schemas.UserLogIn(username=user.name, password="validate")
 
 
+
 @app.post("/sign_up")
 async def sign_up(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
@@ -82,7 +83,7 @@ async def user_login(user:  OAuth2PasswordRequestForm = Depends(), db: Session =
     return crud.login(db=db, user=user)
 
 
-@app.post('/me', response_model=schemas.UserLogIn)
+@app.get('/me', response_model=schemas.UserLogIn)
 async def get_me(user: schemas.UserLogIn = Depends(get_current_user)):
     return user
 
@@ -91,23 +92,25 @@ async def get_me(user: schemas.UserLogIn = Depends(get_current_user)):
 #add game data
 @app.post("/Game/add_game")
 async def add_game(game:schemas.Game,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.create_game(db,user,game)
+    return crud.create_game(db=db,user=user,game=game)
+
 #get game data
-@app.get("/Game/get_game_data", response_model=schemas.Game)
+@app.get("/Game/get_game_data")
 async def get_games(skip:int = 0,limit:int=100, db:Session=Depends(get_db)):
-    return crud.get_game(db,skip,limit)
+    return crud.get_game(db=db,skip=skip,limit=limit)
 #get game data by genre
-@app.get("/Game/get_game_data_by_genre", response_model=schemas.Game)
+@app.get("/Game/get_game_data_by_genre")
 async def get_games(genre:str,skip:int = 0,limit:int=100, db:Session=Depends(get_db)):
-    return crud.get_game(db,skip,limit,str)
+    return crud.get_game_by_genre(db=db,skip=skip,limit=limit,genre=genre)
 #get game data by id
-@app.get("/Game/get_game_data_by_id", response_model=schemas.Game)
-async def get_game_by_ID(game_id:str,db:Session=Depends(get_db)):
-    return crud.get_game_by_ID(db,game_id)
+@app.get("/Game/get_game_data_by_id")
+async def get_game_by_ID(game_id:int,db:Session=Depends(get_db)):
+    return crud.get_game_by_ID(db=db,game_id=game_id)
 #add game all content
 @app.patch("/Game/update_game",response_model=schemas.Game)
 async def update_game(game_id:str,UpdateGame:schemas.Game,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.update_game(db,user,game_id,UpdateGame)
+'''
 #update game name
 @app.patch("/Game/update_game_name",response_model=schemas.Game)
 async def update_game_name(game_id:str,name:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
@@ -211,3 +214,4 @@ async def update_issue_refund_acception(refund:bool,user: schemas.UserLogIn = De
 @app.delete("/Issue/delete_issue",response_model=schemas.Issue)
 async def delete_issue(issue_id:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.delete_issue(db,user,issue_id)
+'''

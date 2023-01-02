@@ -1,6 +1,8 @@
 import sqlalchemy as sa
+from sqlalchemy import UniqueConstraint
+from sqlalchemy.ext.declarative import declarative_base
 
-from app.database import Base
+from .database import Base
 
 
 class User(Base):
@@ -11,7 +13,8 @@ class User(Base):
     password = sa.Column(sa.VARCHAR(length=100), nullable=False)
     authority = sa.Column(sa.Enum(
         "Admin", "Developer", "Member", name="authority"), nullable=False)
-    name = sa.Column(sa.VARCHAR(length=30), nullable=False)
+    name = sa.Column(sa.VARCHAR(length=30), nullable=False,
+                     unique=True)  # Update name as unique key
     phone = sa.Column(sa.VARCHAR(length=20), nullable=False)
     email = sa.Column(sa.VARCHAR(length=100), nullable=False)
     member_balance = sa.Column(sa.INTEGER)
@@ -19,14 +22,14 @@ class User(Base):
 
 class Game(Base):
     __tablename__ = "game"
-
+    
     game_id = sa.Column(sa.INTEGER,
                         primary_key=True, nullable=False)
     create_at = sa.Column(sa.DATE, nullable=False)
     game_name = sa.Column(sa.VARCHAR(length=20), nullable=False)
     game_sale_price = sa.Column(sa.INTEGER, nullable=False)
     game_developer = sa.Column(sa.VARCHAR(length=20), nullable=False)
-    game_picture = sa.Column(sa.BLOB(), nullable=False)
+    game_picture = sa.Column(sa.VARCHAR(length=200), nullable=False)
     game_introduction = sa.Column(sa.VARCHAR(length=2000), nullable=False)
     game_discount = sa.Column(sa.DECIMAL())
     game_genre = sa.Column(sa.VARCHAR(length=50), nullable=False)
