@@ -45,6 +45,7 @@ def login(db: Session, user: schemas.UserLogIn):
         "refresh_token": create_refresh_token(user.username),
     }
 
+###Game
 def create_game(db:Session,user:schemas.UserLogIn,game:schemas.Game):
     created_game = models.Game(
         game_id=game.game_id,
@@ -139,5 +140,69 @@ def delete_game(db:Session, user:schemas.UserLogIn, game_id:int):
     if not db_game_delete:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
     db.delete(db_game_delete)
+    db.commit()
+    return True
+
+###GameList
+def create_gamelist_Lib(db:Session,user:schemas.UserLogIn,gamelist:schemas.GameList):
+    gamelist = models.GameList(
+        game_list_id=gamelist.game_list_id,
+        create_at=datetime.now(),
+        user_id=gamelist.user_id,
+        game_list_type="Library",
+        comment=gamelist.comment,
+        category=gamelist.category,
+        game_id=gamelist.game_id)
+
+    db.add(gamelist)
+    db.commit()
+    db.refresh(gamelist)
+    return gamelist
+
+def create_gamelist_Wish(db:Session,user:schemas.UserLogIn,gamelist:schemas.GameList):
+    gamelist = models.GameList(
+        game_list_id=gamelist.game_list_id,
+        create_at=datetime.now(),
+        user_id=gamelist.user_id,
+        game_list_type="Wishlist",
+        comment=gamelist.comment,
+        category=gamelist.category,
+        game_id=gamelist.game_id)
+
+    db.add(gamelist)
+    db.commit()
+    db.refresh(gamelist)
+    return gamelist
+
+def get_gamelist(db:Session,user:schemas.UserLogIn,skip:int=0,limit:int=100):
+    return db.query(models.GameList).offset(skip).limit(limit).all()
+
+def get_gamelist_by_type(db:Session,user:schemas.UserLogIn, type:str):
+    userid = db.query(models.User.id).filter(models.User.name==user.username).first()
+    return db.query(models.GameList).filter(models.GameList.game_list_type == type and models.GameList.user_id==userid).first()
+
+###### update needs to re-think
+def update_gamelist_comment(db:Session, user:schemas.UserLogIn,gamelist_id:int, comment:str):
+    userid = db.query(models.User.id).filter(models.User.name==user.username).first()
+    Old = db.query(models.GameList).filter(models.GameList.game_list_id==gamelist_id)
+    if not Old.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'GameList of the id {gamelist_id} is not available')
+    Old.update({"comment":comment})
+    db.commit()
+    return comment
+def update_gamelist_game(db:Session, user:schemas.UserLogIn,gamelist_id:int, game_id:int):
+    userid = db.query(models.User.id).filter(models.User.name==user.username).first()
+    Old = db.query(models.GameList).filter(models.GameList.game_list_id==gamelist_id)
+    if not Old.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'GameList of the id {gamelist_id} is not available')
+    Old.update({"game_id":game_id})
+    db.commit()
+    return game_id
+
+def delete_gamelist(db:Session, user:schemas.UserLogIn, game_list_id:int):
+    db_gamelist_delete = db.query(models.GameList).filter(models.GameList.game_list_id==game_list_id).first()
+    if not db_gamelist_delete:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'GameList with the id {game_list_id} is not available')
+    db.delete(db_gamelist_delete)
     db.commit()
     return True

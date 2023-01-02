@@ -141,33 +141,40 @@ async def delete_game(game_id:int, user: schemas.UserLogIn = Depends(get_current
     return crud.delete_game(db,user,game_id)
 
 
-'''
 ###Game List
 #add gamelist
-@app.get("/GameList/add_gameslist")
+@app.post("/GameList/add_gameslist_Lib")
 async def add_gamelist(gamelist:schemas.GameList,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.create_gamelist(db,user,gamelist)
+    return crud.create_gamelist_Lib(db=db,user=user,gamelist=gamelist)
+#add gamelist Wishlist
+@app.post("/GameList/add_gameslist_wish")
+async def add_gamelist(gamelist:schemas.GameList,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.create_gamelist_Wish(db=db,user=user,gamelist=gamelist)
 #get gamelist
-@app.get("/GameList/get_gamelist", response_model=schemas.GameList)
+@app.get("/GameList/get_gamelist")
 async def get_gamelist(skip:int = 0,limit:int=100,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.get_gamelist(db,user,skip,limit)
+    return crud.get_gamelist(db=db,user=user,skip=skip,limit=limit)
 #get gamelist by type
-@app.get("/GameList/get_gamelist_by_type", response_model=schemas.GameList)
+@app.get("/GameList/get_gamelist_by_type")
 async def get_gamelist_by_type(type:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.get_gamelist_by_type(db,user,type)
-#update gamelist comment
-@app.patch("/GameList/update_gamelist_comment", response_model=schemas.GameList)
-async def update_gamelist_comment(comment:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_gamelist_comment(db,user,comment)
-#update gamelist game
-@app.patch("/GameList/update_gamelist_game", response_model=schemas.GameList)
-async def update_gamelist_game(game_id:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_gamelist_game(db,user,game_id)
-#delete gamelist
-@app.delete("/GameList/delete_gamelist",response_model=schemas.Game)
-async def delete_gamelist(game_list_id:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.delete_gamelist(db,user,game_list_id)
+    return crud.get_gamelist_by_type(db=db,user=user,type=type)
 
+###### update needs to re-think
+#update gamelist comment
+@app.patch("/GameList/update_gamelist_comment")
+async def update_gamelist_comment(gamelist_id:int,comment:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_gamelist_comment(db=db,user=user,gamelist_id=gamelist_id,comment=comment)
+#update gamelist game
+@app.patch("/GameList/update_gamelist_game")
+async def update_gamelist_game(gamelist_id:int,game_id:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_gamelist_game(db=db,user=user,gamelist_id=gamelist_id,game_id=game_id)
+
+#delete gamelist
+@app.delete("/GameList/delete_gamelist")
+async def delete_gamelist(game_list_id:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.delete_gamelist(db=db,user=user,game_list_id=game_list_id)
+
+'''
 ###Cart
 #add Cart
 @app.get("/Cart/add_cart")
