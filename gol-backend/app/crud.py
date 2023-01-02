@@ -133,3 +133,11 @@ def update_game_version(db:Session, user:schemas.UserLogIn, game_id:int, version
     OldGame.update({"game_version":version})
     db.commit()
     return version
+
+def delete_game(db:Session, user:schemas.UserLogIn, game_id:int):
+    db_game_delete = db.query(models.Game).filter(models.Game.game_id==game_id).first()
+    if not db_game_delete:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
+    db.delete(db_game_delete)
+    db.commit()
+    return True

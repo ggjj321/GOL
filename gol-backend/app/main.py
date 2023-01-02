@@ -135,15 +135,13 @@ async def update_game_discount(game_id:int,discount:Decimal,user: schemas.UserLo
 @app.patch("/Game/update_game_version")
 async def update_game_version(game_id:int,version:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.update_game_version(db=db,user=user,game_id=game_id,version=version)
-
-
 #delete game
-'''
-@app.delete("/Game/delete_game",response_model=schemas.Game)
-async def delete_game(game_id:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+@app.delete("/Game/delete_game")
+async def delete_game(game_id:int, user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.delete_game(db,user,game_id)
 
 
+'''
 ###Game List
 #add gamelist
 @app.get("/GameList/add_gameslist")
