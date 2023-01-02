@@ -2,6 +2,8 @@ from datetime import datetime
 from fastapi import status, HTTPException
 from sqlalchemy.orm import Session
 
+from decimal import Decimal
+
 from app import models
 from app import schemas
 
@@ -72,36 +74,62 @@ def get_game_by_ID(db:Session, game_id:int):
     return db.query(models.Game).filter(models.Game.game_id == game_id).first()
 
 def update_game(db:Session, user:schemas.UserLogIn, game_id:int, UpdateGame:schemas.Game):
-    info = models.Game(
-        game_id=UpdateGame.game_id,
-        create_at=UpdateGame.create_at,
-        game_name=UpdateGame.game_name,
-        game_sale_price=UpdateGame.game_sale_price,
-        game_developer=UpdateGame.game_developer,
-        game_picture=UpdateGame.game_picture,
-        game_introduction=UpdateGame.game_introduction,
-        game_discount=UpdateGame.game_discount,
-        game_genre=UpdateGame.game_genre,
-        game_version=UpdateGame.game_version,
-        game_developer_id=UpdateGame.game_developer_id)
+    info = models.Game(game_id=UpdateGame.game_id, create_at=UpdateGame.create_at, game_name=UpdateGame.game_name, game_sale_price=UpdateGame.game_sale_price, game_developer=UpdateGame.game_developer, game_picture=UpdateGame.game_picture, game_introduction=UpdateGame.game_introduction, game_discount=UpdateGame.game_discount, game_genre=UpdateGame.game_genre, game_version=UpdateGame.game_version, game_developer_id=UpdateGame.game_developer_id)
     OldGame = db.query(models.Game).filter(models.Game.game_id==game_id)
     if not OldGame.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
     OldGame.update(
         {
-            "game_id": UpdateGame.game_id,
-            "create_at":UpdateGame.create_at,
-            "game_name":UpdateGame.game_name,
-            "game_sale_price":UpdateGame.game_sale_price,
-            "game_developer":UpdateGame.game_developer,
-            "game_picture":UpdateGame.game_picture,
-            "game_introduction":UpdateGame.game_introduction,
-            "game_discount":UpdateGame.game_discount,
-            "game_genre":UpdateGame.game_genre,
-            "game_version":UpdateGame.game_version,
-            "game_developer_id":UpdateGame.game_developer_id
+            "game_id": UpdateGame.game_id, "create_at":UpdateGame.create_at, "game_name":UpdateGame.game_name, "game_sale_price":UpdateGame.game_sale_price, "game_developer":UpdateGame.game_developer, "game_picture":UpdateGame.game_picture, "game_introduction":UpdateGame.game_introduction, "game_discount":UpdateGame.game_discount, "game_genre":UpdateGame.game_genre, "game_version":UpdateGame.game_version, "game_developer_id":UpdateGame.game_developer_id
         }
     )
     db.commit()
     return info
 
+def update_game_name(db:Session, user:schemas.UserLogIn, game_id:int, name:str):
+    OldGame = db.query(models.Game).filter(models.Game.game_id==game_id)
+    if not OldGame.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
+    OldGame.update({"game_name":name})
+    db.commit()
+    return name
+
+def update_game_price(db:Session, user:schemas.UserLogIn, game_id:int, price:int):
+    OldGame = db.query(models.Game).filter(models.Game.game_id==game_id)
+    if not OldGame.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
+    OldGame.update({"game_sale_price":price})
+    db.commit()
+    return price
+
+def update_game_picture(db:Session, user:schemas.UserLogIn, game_id:int, pic:str):
+    OldGame = db.query(models.Game).filter(models.Game.game_id==game_id)
+    if not OldGame.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
+    OldGame.update({"game_picture":pic})
+    db.commit()
+    return pic
+
+def update_game_info(db:Session, user:schemas.UserLogIn, game_id:int, info:str):
+    OldGame = db.query(models.Game).filter(models.Game.game_id==game_id)
+    if not OldGame.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
+    OldGame.update({"game_introduction":info})
+    db.commit()
+    return info
+
+def update_game_discount(db:Session, user:schemas.UserLogIn, game_id:int, discount:Decimal):
+    OldGame = db.query(models.Game).filter(models.Game.game_id==game_id)
+    if not OldGame.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
+    OldGame.update({"game_discount":discount})
+    db.commit()
+    return discount
+
+def update_game_version(db:Session, user:schemas.UserLogIn, game_id:int, version:str):
+    OldGame = db.query(models.Game).filter(models.Game.game_id==game_id)
+    if not OldGame.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
+    OldGame.update({"game_version":version})
+    db.commit()
+    return version

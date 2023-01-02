@@ -110,32 +110,35 @@ async def get_game_by_ID(game_id:int,db:Session=Depends(get_db)):
 @app.patch("/Game/update_game")
 async def update_game(game_id:int,UpdateGame:schemas.Game,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.update_game(db=db,user=user,game_id=game_id,UpdateGame=UpdateGame)
-'''
+
 #update game name
-@app.patch("/Game/update_game_name",response_model=schemas.Game)
-async def update_game_name(game_id:str,name:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_game_name(db,user,game_id,name)
+@app.patch("/Game/update_game_name")
+async def update_game_name(game_id:int,name:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_game_name(db=db,user=user,game_id=game_id,name=name)
 #update game price
-@app.patch("/Game/update_game_price",response_model=schemas.Game)
-async def update_game_price(game_id:str,price:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_game_price(db,user,game_id,price)
+@app.patch("/Game/update_game_price")
+async def update_game_price(game_id:int,price:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_game_price(db=db,user=user,game_id=game_id,price=price)
 #update game pic
-@app.patch("/Game/update_game_pic",response_model=schemas.Game)
-async def update_game_picture(game_id:str,pic:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_game_picture(db,user,game_id,pic)
+@app.patch("/Game/update_game_pic")
+async def update_game_picture(game_id:int,pic:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_game_picture(db=db,user=user,game_id=game_id,pic=pic)
 #update game info
-@app.patch("/Game/update_game_info",response_model=schemas.Game)
-async def update_game_info(game_id:str,info:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_game_info(db,user,game_id,str)
+@app.patch("/Game/update_game_info")
+async def update_game_info(game_id:int,info:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_game_info(db=db,user=user,game_id=game_id,info=info)
 #update game discount
-@app.patch("/Game/update_game_discount",response_model=schemas.Game)
-async def update_game_discount(game_id:str,discount:Decimal,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_game_discount(db,user,game_id,discount)
+@app.patch("/Game/update_game_discount")
+async def update_game_discount(game_id:int,discount:Decimal,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_game_discount(db=db,user=user,game_id=game_id,discount=discount)
 #update game version
-@app.patch("/Game/update_game_version",response_model=schemas.Game)
-async def update_game_version(game_id:str,version:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_game_version(db,user,game_id,version)
+@app.patch("/Game/update_game_version")
+async def update_game_version(game_id:int,version:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_game_version(db=db,user=user,game_id=game_id,version=version)
+
+
 #delete game
+'''
 @app.delete("/Game/delete_game",response_model=schemas.Game)
 async def delete_game(game_id:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.delete_game(db,user,game_id)
