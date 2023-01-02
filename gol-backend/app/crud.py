@@ -48,6 +48,9 @@ def login(db: Session, user: schemas.UserLogIn):
 #Game
 def create_game(db: Session, game: schemas.Game, user: schemas.User):
     db_game = models.Game(
+        game_id=game.game_id, 
+        create_at=datetime.now(), 
+        game_name=game.game_name,
         game_sale_price=game.game_sale_price, 
         game_developer=game.game_developer, 
         game_picture=game.game_picture, 
@@ -55,10 +58,7 @@ def create_game(db: Session, game: schemas.Game, user: schemas.User):
         game_discount=game.game_discount, 
         game_genre=game.game_genre, 
         game_version=game.game_version, 
-        game_developer_id=game.game_developer_id, 
-        game_id=game.game_id, 
-        create_at=datetime.now(), 
-        game_name=game.game_name
+        game_developer_id=game.game_developer_id
     )
     db.add(db_game)
     db.commit
