@@ -46,7 +46,7 @@ def login(db: Session, user: schemas.UserLogIn):
     }
 
 #Game
-def create_game(db: Session, game: schemas.Game):
+def create_game(db: Session, game: schemas.Game, user: schemas.User):
     db_game = models.Game(
         game_sale_price=game.game_sale_price, 
         game_developer=game.game_developer, 
