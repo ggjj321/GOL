@@ -46,26 +46,26 @@ def login(db: Session, user: schemas.UserLogIn):
     }
 
 #Game
-def create_game(db: Session, game: schemas.Game, user: schemas.User):
+def create_game(db: Session, game: schemas.Game):
     db_game = models.Game(
-        price=game.game_sale_price, 
-        developer=game.game_developer, 
-        picture=game.game_picture, 
-        introduction=game.game_introduction, 
-        discount=game.game_discount, 
-        genre=game.game_genre, 
-        version=game.game_version, 
-        developer_id=game.game_developer_id, 
-        id=game.game_id, 
+        game_sale_price=game.game_sale_price, 
+        game_developer=game.game_developer, 
+        game_picture=game.game_picture, 
+        game_introduction=game.game_introduction, 
+        game_discount=game.game_discount, 
+        game_genre=game.game_genre, 
+        game_version=game.game_version, 
+        game_developer_id=game.game_developer_id, 
+        game_id=game.game_id, 
         create_at=datetime.now(), 
-        name=game.game_name
+        game_name=game.game_name
     )
     db.add(db_game)
     db.commit
     db.refresh(db_game)
     return db_game
 
-def get_game(db:Session, skip: int = 0, limit: int = 1000) -> Game:
+def get_game(db:Session, skip: int = 0, limit: int = 100) -> Game:
     result = db.query(Game).offset(skip).limit(limit).all()
     db.commit()
     return result
