@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 from app import models
 from app import schemas
 
-
 from app.utils import (
     get_hashed_password,
     create_access_token,
@@ -43,3 +42,31 @@ def login(db: Session, user: schemas.UserLogIn):
         "access_token": create_access_token(user.username),
         "refresh_token": create_refresh_token(user.username),
     }
+
+def create_game(db:Session,user:schemas.UserLogIn,game:schemas.Game):
+    created_game = models.Game(
+        game_id=game.game_id,
+        create_at=datetime.now(),
+        game_name=game.game_name,
+        game_sale_price=game.game_sale_price,
+        game_developer=user.username,
+        game_picture=game.game_picture,
+        game_introduction=game.game_introduction,
+        game_discount=game.game_discount,
+        game_genre=game.game_genre,
+        game_version=game.game_version,
+        game_developer_id=game.game_developer_id)
+
+    db.add(created_game)
+    db.commit()
+    db.refresh(created_game)
+    return created_game
+
+def get_game(db:Session, skip:int=0,limit:int=100):
+    return db.query(models.Game).offset(skip).limit(limit).all()
+
+def get_game_by_genre(db:Session,genre:str,skip:int=0,limit:int=100):
+    return db.query(models.Game).filter(models.Game.game_genre == genre).offset(skip).limit(limit).all()
+
+def get_game_by_ID(db:Session, game_id:int):
+    return db.query(models.Game).filter(models.Game.game_id == game_id).first()
