@@ -1,6 +1,7 @@
 from datetime import datetime
 from fastapi import status, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import and_
 
 from decimal import Decimal
 
@@ -204,5 +205,48 @@ def delete_gamelist(db:Session, user:schemas.UserLogIn, game_list_id:int):
     if not db_gamelist_delete:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'GameList with the id {game_list_id} is not available')
     db.delete(db_gamelist_delete)
+    db.commit()
+    return True
+
+###CART
+def create_cart(db:Session,user:schemas.UserLogIn,cart:schemas.Cart):
+    created_cart = models.Cart(
+        cart_id=cart.cart_id,
+        user_id=cart.user_id,
+        game_id=cart.game_id,
+        cost=cart.cost,
+        place_order=cart.place_order)
+    db.add(created_cart)
+    db.commit()
+    db.refresh(created_cart)
+    return created_cart
+
+def get_cart(db:Session,user:schemas.UserLogIn,skip:int=0,limit:int=100):
+    userid = db.query(models.User.id).filter(models.User.name==user.username)
+    return db.query(models.Cart).filter(models.Cart.user_id==userid).offset(skip).limit(limit).all()
+
+def update_cart_cost(db:Session, user:schemas.UserLogIn,game_id:int,cost:int):
+    userid = db.query(models.User.id).filter(models.User.name==user.username)
+    Old = db.query(models.Cart).filter((models.Cart.user_id==userid) & (models.Cart.game_id==game_id))
+    if not Old.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Cart of the id {user_id} is not available')
+    Old.update({"cost":cost}, synchronize_session=False)
+    db.commit()
+    return game_id
+
+def update_cart_place_order(db:Session, user:schemas.UserLogIn,game_id:int,place_order:bool):
+    userid = db.query(models.User.id).filter(models.User.name==user.username)
+    Old = db.query(models.Cart).filter((models.Cart.user_id==userid) & (models.Cart.game_id==game_id))
+    if not Old.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Cart of the id {user_id} is not available')
+    Old.update({"place_order":place_order}, synchronize_session=False)
+    db.commit()
+    return game_id
+
+def delete_cart(db:Session, user:schemas.UserLogIn, cart_id:int):
+    db_cart_delete = db.query(models.Cart).filter(models.Cart.cart_id==cart_id).first()
+    if not db_cart_delete:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Cart with the id {cart_id} is not available')
+    db.delete(db_cart_delete)
     db.commit()
     return True

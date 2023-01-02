@@ -174,32 +174,32 @@ async def update_gamelist_game(gamelist_id:int,game_id:int,user: schemas.UserLog
 async def delete_gamelist(game_list_id:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.delete_gamelist(db=db,user=user,game_list_id=game_list_id)
 
-'''
 ###Cart
 #add Cart
-@app.get("/Cart/add_cart")
+@app.post("/Cart/add_cart")
 async def add_cart(cart:schemas.Cart,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.create_cart(db,user,cart)
+    return crud.create_cart(db=db,user=user,cart=cart)
 #get Cart
-@app.get("/Cart/get_cart", response_model=schemas.Cart)
+@app.get("/Cart/get_cart")
 async def get_cart(skip:int = 0,limit:int=100,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.get_cart(db,user,skip,limit)
+    return crud.get_cart(db=db,user=user,skip=skip,limit=limit)
 #update cost
-@app.patch("/Cart/update_cart_cost", response_model=schemas.Cart)
-async def update_cart_cost(cost:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_cart_cost(db,user,cost)
+@app.patch("/Cart/update_cart_cost")
+async def update_cart_cost(game_id:int,cost:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_cart_cost(db=db,user=user,game_id=game_id,cost=cost)
 #update place order
-@app.patch("/Cart/update_cart_place_order", response_model=schemas.Cart)
-async def update_cart_place_order(place_order:bool,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_cart_place_order(db,user,place_order)
+@app.patch("/Cart/update_cart_place_order")
+async def update_cart_place_order(game_id:int,place_order:bool,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_cart_place_order(db=db,user=user,game_id=game_id,place_order=place_order)
 #delete Cart
-@app.delete("/Cart/delete_cart",response_model=schemas.Cart)
-async def delete_cart(cart_id:str,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.delete_cart(db,user,cart_id)
+@app.delete("/Cart/delete_cart")
+async def delete_cart(cart_id:int,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.delete_cart(db=db,user=user,cart_id=cart_id)
 
+'''
 ###issue
 #add Issue
-@app.get("/Issue/add_issue")
+@app.post("/Issue/add_issue")
 async def add_issue(issue:schemas.Issue,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
     return crud.create_issue(db,user,issue)
 #get Issue
