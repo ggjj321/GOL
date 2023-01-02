@@ -70,3 +70,38 @@ def get_game_by_genre(db:Session,genre:str,skip:int=0,limit:int=100):
 
 def get_game_by_ID(db:Session, game_id:int):
     return db.query(models.Game).filter(models.Game.game_id == game_id).first()
+
+def update_game(db:Session, user:schemas.UserLogIn, game_id:int, UpdateGame:schemas.Game):
+    info = models.Game(
+        game_id=UpdateGame.game_id,
+        create_at=UpdateGame.create_at,
+        game_name=UpdateGame.game_name,
+        game_sale_price=UpdateGame.game_sale_price,
+        game_developer=UpdateGame.game_developer,
+        game_picture=UpdateGame.game_picture,
+        game_introduction=UpdateGame.game_introduction,
+        game_discount=UpdateGame.game_discount,
+        game_genre=UpdateGame.game_genre,
+        game_version=UpdateGame.game_version,
+        game_developer_id=UpdateGame.game_developer_id)
+    OldGame = db.query(models.Game).filter(models.Game.game_id==game_id)
+    if not OldGame.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f'Game with the id {game_id} is not available')
+    OldGame.update(
+        {
+            "game_id": UpdateGame.game_id,
+            "create_at":UpdateGame.create_at,
+            "game_name":UpdateGame.game_name,
+            "game_sale_price":UpdateGame.game_sale_price,
+            "game_developer":UpdateGame.game_developer,
+            "game_picture":UpdateGame.game_picture,
+            "game_introduction":UpdateGame.game_introduction,
+            "game_discount":UpdateGame.game_discount,
+            "game_genre":UpdateGame.game_genre,
+            "game_version":UpdateGame.game_version,
+            "game_developer_id":UpdateGame.game_developer_id
+        }
+    )
+    db.commit()
+    return info
+

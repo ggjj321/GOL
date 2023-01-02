@@ -107,9 +107,9 @@ async def get_games(genre:str,skip:int = 0,limit:int=100, db:Session=Depends(get
 async def get_game_by_ID(game_id:int,db:Session=Depends(get_db)):
     return crud.get_game_by_ID(db=db,game_id=game_id)
 #add game all content
-@app.patch("/Game/update_game",response_model=schemas.Game)
-async def update_game(game_id:str,UpdateGame:schemas.Game,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
-    return crud.update_game(db,user,game_id,UpdateGame)
+@app.patch("/Game/update_game")
+async def update_game(game_id:int,UpdateGame:schemas.Game,user: schemas.UserLogIn = Depends(get_current_user),db:Session=Depends(get_db)):
+    return crud.update_game(db=db,user=user,game_id=game_id,UpdateGame=UpdateGame)
 '''
 #update game name
 @app.patch("/Game/update_game_name",response_model=schemas.Game)
