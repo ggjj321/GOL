@@ -46,7 +46,7 @@ def login(db: Session, user: schemas.UserLogIn):
     }
 
 #Game
-def create_game(db: Session, game: schemas.Game, user: schemas.User):
+def create_game(db: Session, user: schemas.User, game: schemas.Game,):
     db_game = models.Game(
         game_id=game.game_id, 
         create_at=datetime.now(), 
