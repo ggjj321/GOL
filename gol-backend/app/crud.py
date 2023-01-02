@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app import models
 from app import schemas
+from app.models import Game
 
 
 from app.utils import (
@@ -43,3 +44,77 @@ def login(db: Session, user: schemas.UserLogIn):
         "access_token": create_access_token(user.username),
         "refresh_token": create_refresh_token(user.username),
     }
+
+#Game
+def create_game(db: Session, game: schemas.Game, user: schemas.User):
+    db_game = models.Game(
+        price=game.game_sale_price, 
+        developer=game.game_developer, 
+        picture=game.game_picture, 
+        introduction=game.game_introduction, 
+        discount=game.game_discount, 
+        genre=game.game_genre, 
+        version=game.game_version, 
+        developer_id=game.game_developer_id, 
+        id=game.game_id, 
+        create_at=datetime.now(), 
+        name=game.game_name
+    )
+    db.add(db_game)
+    db.commit
+    db.refresh(db_game)
+    return db_game
+
+def get_game(db:Session, skip: int = 0, limit: int = 1000) -> Game:
+    result = db.query(Game).offset(skip).limit(limit).all()
+    db.commit()
+    return result
+
+def get_game_by_genre(db:Session, game: schemas.Game, game_genre:str) -> Game:
+    result = db.query(Game).filter_by(game_genre = game_genre)
+    db.commit()
+    return result
+
+def get_game_by_ID(db:Session, game: schemas.Game, game_id:int) -> Game:
+    result = db.query(Game).filter_by(game_id = game_id).first()
+    db.commit()
+    return result
+
+def update_game(db:Session, game: schemas.Game, game_id:int, _update_data = dict):
+    result = db.query(Game).filter_by(game_id = game_id).update(_update_data)
+    db.commit()
+    return result
+def update_game_name(db:Session, game: schemas.Game, game_id:int, _update_data = str):
+    result =  db.query(Game).filter_by(game_id = game_id).update(_update_data)
+    db.commit()
+    return result
+
+def update_game_price(db:Session, game: schemas.Game, game_id:int, _update_data = int):
+    result =  db.query(Game).filter_by(game_id = game_id).update(_update_data)
+    db.commit()
+    return result
+
+def update_game_picture(db:Session, game: schemas.Game, game_id:int, _update_data = str):
+    result =  db.query(Game).filter_by(game_id = game_id).update(_update_data)
+    db.commit()
+    return result
+
+def update_game_info(db:Session, game: schemas.Game, game_id:int, _update_data = str):
+    result =  db.query(Game).filter_by(game_id = game_id).update(_update_data)
+    db.commit()
+    return result
+
+def update_game_discount(db:Session, game: schemas.Game, game_id:int, _update_data = int):
+    result =  db.query(Game).filter_by(game_id = game_id).update(_update_data)
+    db.commit()
+    return result
+
+def update_game_version(db:Session, game: schemas.Game, game_id:int, _update_data = str):
+    result =  db.query(Game).filter_by(game_id = game_id).update(_update_data)
+    db.commit()
+    return result
+
+def delete_game(db:Session, game_id:int):
+    result = db.query(Game).filter_by(game_id=game_id).delete()
+    db.commit()
+    return result

@@ -20,7 +20,7 @@ class UserCreate(UserBase):
 
 
 class User(UserCreate):
-    id: str
+    id: int
     create_at: datetime
     authority: Enum("authority", ["Admin", "Developer", "Member"])
     member_balance: int
@@ -36,12 +36,12 @@ class TokenData(BaseModel):
 class OwnedGame(BaseModel):
     comment: str
     category: str
-    game_id: str
+    game_id: int
 
 class GameList(OwnedGame):
-    game_list_id: str
+    game_list_id: int
     create_at: datetime = None
-    user_id:  str
+    user_id:  int
     game_list_type: Enum("game_list_type", ["Wishlist", "Library"])
 
     class Config:
@@ -59,7 +59,7 @@ class GameDetail(BaseModel):
     game_developer_id: str
 
 class Game(GameDetail):
-    game_id: str
+    game_id: int
     create_at: datetime = None
     game_name: str
 
@@ -68,9 +68,9 @@ class Game(GameDetail):
 
 # Cart
 class Cart(BaseModel):
-    cart_id: str
-    user_id: str
-    game_id: str
+    cart_id: int
+    user_id: int
+    game_id: int
     cost: int
     place_order: bool
 
@@ -79,14 +79,14 @@ class Cart(BaseModel):
         
 # Issue
 class Issue(BaseModel):
-    issue_id: str
+    issue_id: int
     create_at: datetime = None
     issue_type: Enum("issue_type", ["Violation", "Refund"])
     issue_deleted_at: datetime = None
-    user_id: str
+    user_id: int
     violation_content: str
     refund_acception: bool
-    refund_gameId: str
+    refund_gameId: int
 
     class Config:
         orm_mode = True
