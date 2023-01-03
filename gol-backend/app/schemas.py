@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from decimal import Decimal
 from typing import Union
 
+
 class UserBase(BaseModel):
     username: str
     password: str
@@ -21,8 +22,8 @@ class UserCreate(UserBase):
 
 class User(UserCreate):
     id: int
-    create_at: datetime
-    authority: Enum("authority", ["Admin", "Developer", "Member"])
+    create_at: str
+    authority: str
     member_balance: int
 
     class Config:
@@ -33,10 +34,13 @@ class TokenData(BaseModel):
     username: Union[str, None] = None
 
 # Game list
+
+
 class OwnedGame(BaseModel):
     comment: str
     category: str
     game_id: int
+
 
 class GameList(OwnedGame):
     game_list_id: int
@@ -48,15 +52,18 @@ class GameList(OwnedGame):
         orm_mode = True
 
 # Game
+
+
 class GameDetail(BaseModel):
     game_sale_price: int
     game_developer: str
     game_picture: str = None
     game_introduction: str
-    game_discount: Decimal 
+    game_discount: Decimal
     game_genre: str
     game_version: str
-    game_developer_id: str
+    game_developer_id: int
+
 
 class Game(GameDetail):
     game_id: int
@@ -67,6 +74,8 @@ class Game(GameDetail):
         orm_mode = True
 
 # Cart
+
+
 class Cart(BaseModel):
     cart_id: int
     user_id: int
@@ -76,8 +85,10 @@ class Cart(BaseModel):
 
     class Config:
         orm_mode = True
-        
+
 # Issue
+
+
 class Issue(BaseModel):
     issue_id: int
     create_at: datetime = None

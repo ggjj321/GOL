@@ -1,7 +1,9 @@
 import sqlalchemy as sa
 from sqlalchemy import UniqueConstraint
+from sqlalchemy.ext.declarative import declarative_base
 
-from app.database import Base
+
+from .database import Base
 
 
 class User(Base):
@@ -21,7 +23,7 @@ class User(Base):
 
 class Game(Base):
     __tablename__ = "game"
-
+    
     game_id = sa.Column(sa.INTEGER,
                         primary_key=True, nullable=False)
     create_at = sa.Column(sa.DATE, nullable=False)
