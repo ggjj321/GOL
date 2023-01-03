@@ -2,6 +2,7 @@ import sqlalchemy as sa
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 
+
 from .database import Base
 
 
