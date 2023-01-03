@@ -96,6 +96,10 @@ async def get_me(user: schemas.UserLogIn = Depends(get_current_user)):
 async def change_user_authority(authority: str, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
     return crud.update_user_authority(authority=authority, db=db, user=user)
 
+
+@app.post("/add_money")
+async def add_money(add_money: int, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
+    return crud.update_user_balance(add_money=add_money, db=db, user=user)
 # NEED PART
 # Game
 # add game data
@@ -198,6 +202,10 @@ async def get_gamelist(skip: int = 0, limit: int = 100, user: schemas.UserLogIn 
 async def get_gamelist_by_type(type: str, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
     return crud.get_gamelist_by_type(db=db, user=user, type=type)
 
+
+@app.get("/GameList/get_wishlist_games")
+async def get_wishlist_games(skip: int = 0, limit: int = 100, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
+    return crud.get_wishlist_games(db=db, user=user, skip=skip, limit=limit)
 # update needs to re-think
 # update gamelist comment
 

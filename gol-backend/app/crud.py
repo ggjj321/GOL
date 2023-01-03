@@ -77,10 +77,27 @@ def update_user_authority(authority: str, db: Session, user: schemas.UserLogIn):
     db.commit()
     return user
 
+
+def update_user_balance(add_money: int, db: Session, user: schemas.UserLogIn):
+    need_change_user = db.query(models.User).filter(
+        models.User.name == user.username)
+    if not need_change_user.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'{user.username} is not available')
+    need_change_user.update(
+        {
+            "member_balance": need_change_user.first().member_balance + add_money
+        }
+    )
+    db.commit()
+    return user
+
 # Game
 
 
 def create_game(db: Session, user: schemas.UserLogIn, game: schemas.Game):
+    developer = db.query(models.User).filter(
+        models.User.name == user.username).first()
     created_game = models.Game(
         game_id=game.game_id,
         create_at=datetime.now(),
@@ -92,11 +109,11 @@ def create_game(db: Session, user: schemas.UserLogIn, game: schemas.Game):
         game_discount=game.game_discount,
         game_genre=game.game_genre,
         game_version=game.game_version,
-        game_developer_id=game.game_developer_id)
+        game_developer_id=developer.id)
 
     db.add(created_game)
     db.commit()
-    db.refresh(created_game)
+    # db.refresh(created_game)
     return created_game
 
 
@@ -202,35 +219,61 @@ def delete_game(db: Session, user: schemas.UserLogIn, game_id: int):
 
 
 def create_gamelist_Lib(db: Session, user: schemas.UserLogIn, gamelist: schemas.GameList):
+    add_game_user = db.query(models.User).filter(
+        models.User.name == user.username).first()
+
+    add_game = db.query(models.Game).filter(
+        models.Game == gamelist.game_id).first()
+
     gamelist = models.GameList(
         game_list_id=gamelist.game_list_id,
         create_at=datetime.now(),
-        user_id=gamelist.user_id,
+        user_id=add_game_user.id,
         game_list_type="Library",
         comment=gamelist.comment,
-        category=gamelist.category,
+        category=add_game.game_genre,
         game_id=gamelist.game_id)
 
     db.add(gamelist)
     db.commit()
-    db.refresh(gamelist)
     return gamelist
 
 
 def create_gamelist_Wish(db: Session, user: schemas.UserLogIn, gamelist: schemas.GameList):
+    add_game_user = db.query(models.User).filter(
+        models.User.name == user.username).first()
+
+    add_game = db.query(models.Game).filter(
+        models.Game.game_id == gamelist.game_id).first()
+
     gamelist = models.GameList(
         game_list_id=gamelist.game_list_id,
         create_at=datetime.now(),
-        user_id=gamelist.user_id,
+        user_id=add_game_user.id,
         game_list_type="Wishlist",
         comment=gamelist.comment,
-        category=gamelist.category,
+        category=add_game.game_genre,
         game_id=gamelist.game_id)
 
     db.add(gamelist)
     db.commit()
-    db.refresh(gamelist)
     return gamelist
+
+
+def get_wishlist_games(db: Session, user: schemas.UserLogIn, skip: int = 0, limit: int = 100):
+    want_get_list_user = db.query(models.User).filter(
+        models.User.name == user.username).first()
+
+    return db.query(models.User).\
+        join(models.User.id).\
+        join(models.GameList.game_id)
+
+    # return db.query(models.User).\
+    #     join(models.User.id).\
+    #     join(models.GameList.game_id).\
+    #     join(models.Game.game_id).\
+    #     filter(models.User.id == want_get_list_user.id).\
+    #     filter(models.GameList.game_list_type == "Wishlist")
 
 
 def get_gamelist(db: Session, user: schemas.UserLogIn, skip: int = 0, limit: int = 100):
