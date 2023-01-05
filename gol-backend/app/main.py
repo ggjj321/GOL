@@ -237,9 +237,9 @@ async def add_cart(cart: schemas.Cart, user: schemas.UserLogIn = Depends(get_cur
 # get Cart
 
 
-@app.get("/Cart/get_cart")
-async def get_cart(skip: int = 0, limit: int = 100, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
-    return crud.get_cart(db=db, user=user, skip=skip, limit=limit)
+@app.get("/Cart/get_cart_or_lib")
+async def get_cart_or_lib(isLib: bool, skip: int = 0, limit: int = 100, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
+    return crud.get_cart_or_lib(isLib=isLib, db=db, user=user, skip=skip, limit=limit)
 # update cost
 
 
@@ -256,8 +256,18 @@ async def update_cart_place_order(game_id: int, place_order: bool, user: schemas
 
 
 @app.delete("/Cart/delete_cart")
-async def delete_cart(cart_id: int, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
-    return crud.delete_cart(db=db, user=user, cart_id=cart_id)
+async def delete_cart(gameID: int, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
+    return crud.delete_cart(db=db, user=user, gameID=gameID)
+
+
+@app.patch("/Cart/buy_single_game")
+async def buy_single_game(gameID: int, db: Session = Depends(get_db), user: schemas.UserLogIn = Depends(get_current_user)):
+    return crud.buy_single_game(gameID=gameID, db=db, user=user)
+
+
+@app.patch("/Cart/buy_all_games")
+async def buy_all_games(db: Session = Depends(get_db), user: schemas.UserLogIn = Depends(get_current_user)):
+    return crud.buy_all_games(db=db, user=user)
 
 # issue
 # add Issue

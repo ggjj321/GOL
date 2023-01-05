@@ -328,21 +328,33 @@ def delete_gamelist(db: Session, user: schemas.UserLogIn, game_list_id: int):
 
 
 def create_cart(db: Session, user: schemas.UserLogIn, cart: schemas.Cart):
+    want_by_game_user = db.query(models.User.id).filter(
+        models.User.name == user.username).first()
+
+    buyed_game = db.query(models.Game).filter(
+        models.Game.game_id == cart.game_id).first()
+
     created_cart = models.Cart(
         cart_id=cart.cart_id,
-        user_id=cart.user_id,
+        user_id=want_by_game_user.id,
         game_id=cart.game_id,
-        cost=cart.cost,
-        place_order=cart.place_order)
+        cost=int(buyed_game.game_sale_price * (1 - buyed_game.game_discount)),
+        place_order=False)
+
     db.add(created_cart)
     db.commit()
-    db.refresh(created_cart)
     return created_cart
 
 
-def get_cart(db: Session, user: schemas.UserLogIn, skip: int = 0, limit: int = 100):
-    userid = db.query(models.User.id).filter(models.User.name == user.username)
-    return db.query(models.Cart).filter(models.Cart.user_id == userid).offset(skip).limit(limit).all()
+def get_cart_or_lib(isLib: bool, db: Session, user: schemas.UserLogIn, skip: int = 0, limit: int = 100):
+    userid = db.query(models.User.id).filter(
+        models.User.name == user.username).first()
+
+    all_game = db.query(models.Game).join(models.Cart, models.Game.game_id ==
+                                          models.Cart.game_id).join(models.User, models.Cart.user_id ==
+                                                                    userid.id).filter(models.Cart.place_order == isLib).offset(skip).limit(limit).all()
+
+    return all_game
 
 
 def update_cart_cost(db: Session, user: schemas.UserLogIn, game_id: int, cost: int):
@@ -361,23 +373,77 @@ def update_cart_place_order(db: Session, user: schemas.UserLogIn, game_id: int, 
     userid = db.query(models.User.id).filter(models.User.name == user.username)
     Old = db.query(models.Cart).filter(
         (models.Cart.user_id == userid) & (models.Cart.game_id == game_id))
-    if not Old.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'Cart of the id {user_id} is not available')
+    # if not Old.first():
+    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+    #                         detail=f'Cart of the id {user_id} is not available')
     Old.update({"place_order": place_order}, synchronize_session=False)
     db.commit()
     return game_id
 
 
-def delete_cart(db: Session, user: schemas.UserLogIn, cart_id: int):
+def delete_cart(db: Session, user: schemas.UserLogIn, gameID: int):
+    buyer = db.query(models.User).filter(
+        models.User.name == user.username)
+
     db_cart_delete = db.query(models.Cart).filter(
-        models.Cart.cart_id == cart_id).first()
+        models.Cart.game_id == gameID and models.User.id == buyer.id).first()
     if not db_cart_delete:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'Cart with the id {cart_id} is not available')
+                            detail=f'Cart with the id  is not available')
     db.delete(db_cart_delete)
     db.commit()
     return True
+
+
+def buy_single_game(db: Session, user: schemas.UserLogIn, gameID: int):
+    buyer = db.query(models.User).filter(
+        models.User.name == user.username)
+
+    buyed_game = db.query(models.Game).filter(
+        models.Game.game_id == gameID).first()
+
+    if buyed_game.game_sale_price * (1 - buyed_game.game_discount) > buyer.first().member_balance:
+        return "You don't have enough money"
+
+    buyer.update({"member_balance": buyer.first().member_balance - (buyed_game.game_sale_price *
+                 (1 - buyed_game.game_discount))}, synchronize_session=False)
+
+    buyed_cart = db.query(models.Cart).filter(
+        models.Cart.game_id == gameID and models.Cart.user_id == buyer.first().id)
+
+    buyed_cart.update({"place_order": True}, synchronize_session=False)
+    db.commit()
+    return buyer
+
+
+def buy_all_games(db: Session, user: schemas.UserLogIn, skip: int = 0, limit: int = 100):
+    buyer = db.query(models.User).filter(
+        models.User.name == user.username)
+
+    buyed_carts = db.query(models.Game).join(
+        models.Cart, models.Game.game_id == models.Cart.game_id).join(models.User, models.Cart.user_id == buyer.first().id).filter(models.Cart.place_order == False)
+
+    total_money = 0
+    update_cart_id = []
+
+    for cart in buyed_carts:
+        total_money += cart.game_sale_price * (1 - cart.game_discount)
+        update_cart_id.append(cart.game_id)
+
+    if total_money > buyer.first().member_balance:
+        return "You don't have enough money"
+
+    buyer.update({"member_balance": buyer.first().member_balance -
+                 total_money}, synchronize_session=False)
+    db.commit()
+
+    for id in update_cart_id:
+        buyed_cart = db.query(models.Cart).filter(
+            models.Cart.game_id == id and models.Cart.user_id == buyer.first().id)
+        buyed_cart.update({"place_order": True}, synchronize_session=False)
+        db.commit()
+
+    return buyer
 
 # Issue
 
