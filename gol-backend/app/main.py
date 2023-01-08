@@ -284,9 +284,15 @@ async def add_issue(issue: schemas.Issue, user: schemas.UserLogIn = Depends(get_
 # get Issue
 
 
-@app.get("/Issue/get_issue")
-async def get_issue(skip: int = 0, limit: int = 100, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
-    return crud.get_issue(db=db, user=user, skip=skip, limit=limit)
+@app.get("/Issue/get_refund")
+async def get_refund(skip: int = 0, limit: int = 100, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
+    return crud.get_refund(db=db, user=user, skip=skip, limit=limit)
+
+
+@app.get("/Issue/get_violation")
+async def get_violation(skip: int = 0, limit: int = 100, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
+    return crud.get_violation(db=db, user=user, skip=skip, limit=limit)
+
 # update Issue delete date
 
 
@@ -303,8 +309,8 @@ async def update_issue_violation_content(issue_id: int, content: str, user: sche
 
 
 @app.patch("/Issue/update_issue_refund_acception")
-async def update_issue_refund_acception(issue_id: int, refund: bool, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
-    return crud.update_issue_refund_acception(db=db, user=user, refund=refund, issue_id=issue_id)
+async def update_issue_refund_acception(game_id: int, issue_id: int, refund: int, user: schemas.UserLogIn = Depends(get_current_user), db: Session = Depends(get_db)):
+    return crud.update_issue_refund_acception(db=db, user=user, refund=refund, issue_id=issue_id, game_id=game_id)
 # delete Issue
 
 

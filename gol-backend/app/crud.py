@@ -402,11 +402,16 @@ def buy_single_game(db: Session, user: schemas.UserLogIn, gameID: int):
     buyed_game = db.query(models.Game).filter(
         models.Game.game_id == gameID).first()
 
-    if buyed_game.game_sale_price * (1 - buyed_game.game_discount) > buyer.first().member_balance:
+    cost_money = buyed_game.game_sale_price * (1 - buyed_game.game_discount)
+
+    cost_money = buyer.first().member_balance - cost_money
+
+    if cost_money < 0:
         return "You don't have enough money"
 
-    buyer.update({"member_balance": buyer.first().member_balance - (buyed_game.game_sale_price *
-                 (1 - buyed_game.game_discount))}, synchronize_session=False)
+    buyer.update({"member_balance": cost_money}, synchronize_session=False)
+
+    db.commit()
 
     buyed_cart = db.query(models.Cart).filter(
         models.Cart.game_id == gameID and models.Cart.user_id == buyer.first().id)
@@ -449,40 +454,50 @@ def buy_all_games(db: Session, user: schemas.UserLogIn, skip: int = 0, limit: in
 
 
 def create_issue_Violation(db: Session, user: schemas.UserLogIn, issue: schemas.Issue):
+    buyer = db.query(models.User).filter(
+        models.User.name == user.username).first()
+
     created_issue = models.Issue(
         issue_id=issue.issue_id,
         create_at=datetime.now(),
         issue_type="Violation",
         issue_deleted_at=issue.issue_deleted_at,
-        user_id=issue.user_id,
+        user_id=buyer.id,
         violation_content=issue.violation_content,
         refund_acception=issue.refund_acception,
-        refund_gameId=issue.refund_gameId)
+        refund_gameId=94)
     db.add(created_issue)
     db.commit()
-    db.refresh(created_issue)
     return created_issue
 
 
 def create_issue_Refund(db: Session, user: schemas.UserLogIn, issue: schemas.Issue):
+    buyer = db.query(models.User).filter(
+        models.User.name == user.username).first()
+
     created_issue = models.Issue(
         issue_id=issue.issue_id,
         create_at=datetime.now(),
         issue_type="Refund",
         issue_deleted_at=issue.issue_deleted_at,
-        user_id=issue.user_id,
+        user_id=buyer.id,
         violation_content=issue.violation_content,
-        refund_acception=issue.refund_acception,
+        refund_acception=False,
         refund_gameId=issue.refund_gameId)
     db.add(created_issue)
     db.commit()
-    db.refresh(created_issue)
     return created_issue
 
 
-def get_issue(db: Session, user: schemas.UserLogIn, skip: int = 0, limit: int = 100):
+def get_refund(db: Session, user: schemas.UserLogIn, skip: int = 0, limit: int = 100):
     userid = db.query(models.User.id).filter(models.User.name == user.username)
-    return db.query(models.Issue).filter(models.Issue.user_id == userid).offset(skip).limit(limit).all()
+    return db.query(models.Issue, models.Game, models.User).join(models.Game, models.Issue.refund_gameId == models.Game.game_id).join(models.User, models.User.id ==
+                                                                                                                                      models.Issue.user_id).filter(models.Issue.user_id == userid).filter(models.Issue.issue_type == "Refund").offset(skip).limit(limit).all()
+
+
+def get_violation(db: Session, user: schemas.UserLogIn, skip: int = 0, limit: int = 100):
+    userid = db.query(models.User.id).filter(models.User.name == user.username)
+    return db.query(models.Issue).filter(models.Issue.user_id == userid).filter(models.Issue.issue_type == "Violation").offset(skip).limit(limit).all()
 
 
 def update_issue_delete_date(db: Session, user: schemas.UserLogIn, issue_id: int, delete_date: datetime):
@@ -507,14 +522,27 @@ def update_issue_violation_content(db: Session, user: schemas.UserLogIn, issue_i
     return content
 
 
-def update_issue_refund_acception(db: Session, user: schemas.UserLogIn, issue_id: int, refund: bool):
-    userid = db.query(models.User.id).filter(models.User.name == user.username)
+def update_issue_refund_acception(db: Session, user: schemas.UserLogIn, issue_id: int, refund: int, game_id: int):
+    userid = db.query(models.User).filter(models.User.name == user.username)
     Old = db.query(models.Issue).filter((models.Issue.issue_id == issue_id))
     if not Old.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'Issue of the id {userid} is not available')
-    Old.update({"refund_acception": refund})
+    Old.update({"refund_acception": True})
     db.commit()
+
+    userid.update({"member_balance": userid.first(
+    ).member_balance + refund}, synchronize_session=False)
+    db.commit()
+
+    # 從 lib 刪遊戲
+
+    deleted_game = db.query(models.Cart).join(models.Issue, models.Cart.user_id == models.Issue.user_id).filter(
+        models.Issue.issue_id == issue_id).filter(models.Cart.game_id == game_id).first()
+
+    db.delete(deleted_game)
+    db.commit()
+
     return refund
 
 

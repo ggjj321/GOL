@@ -23,7 +23,7 @@ class User(Base):
 
 class Game(Base):
     __tablename__ = "game"
-    
+
     game_id = sa.Column(sa.INTEGER,
                         primary_key=True, nullable=False)
     create_at = sa.Column(sa.DATE, nullable=False)
@@ -82,4 +82,4 @@ class Issue(Base):
     violation_content = sa.Column(sa.VARCHAR(length=200))
     refund_acception = sa.Column(sa.Boolean)
     refund_gameId = sa.Column(sa.INTEGER,
-                              sa.ForeignKey("game.game_id"), nullable=False)
+                              sa.ForeignKey("game.game_id"))
